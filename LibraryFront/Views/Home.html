@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/Content/styles.css">
+    <title>HomePage</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" class="brand">Gestión de autores y libros</a>
+        <div>
+            <a href="#" id="authors-link">Autores</a>
+            <a href="#" id="books-link">Libros</a>
+        </div>
+    </div>
+    <div id="content-container">
+        <!-- Aquí se cargará el contenido dinámico -->
+    </div>
+
+    <script>// Selección de los enlaces y el contenedor
+        const authorsLink = document.getElementById('authors-link');
+        const booksLink = document.getElementById('books-link');
+        const contentContainer = document.getElementById('content-container');
+
+        clearScripts();
+
+        // Función para cargar contenido HTML dinámico
+        function loadContent(page) {
+            const contentDiv = document.getElementById("content");
+
+            fetch(`${page}`)
+                .then((response) => {
+                    if (!response.ok) throw new Error(`Error al cargar ${page}`);
+                    return response.text();
+                })
+                .then((html) => {
+                    contentContainer.innerHTML = html;
+                    const achiveName = page.replace(".html", "").replace("/Public/", "");
+                    // Cargar el archivo JS específico
+                    loadScript(`/Scripts/custom/${achiveName}/${achiveName}.js`);
+                })
+                .catch((error) => {
+                    console.error("Error al cargar el contenido:", error);
+                });
+        }
+
+        // Función para cargar un script dinámicamente
+        function loadScript(scriptUrl) {
+            const existingScript = document.querySelector(`script[src="${scriptUrl}"]`);
+            if (existingScript) {
+                existingScript.remove(); // Elimina el script existente si ya está cargado
+            }
+
+            const script = document.createElement("script");
+            script.src = scriptUrl;
+            script.type = "text/javascript";
+            //script.onload = () => console.log(`${scriptUrl} cargado correctamente.`);
+            document.body.appendChild(script);
+        }
+
+        // Función para limpiar scripts antiguos
+        function clearScripts() {
+            const oldScripts = document.querySelectorAll("script[id^='script-']");
+            oldScripts.forEach((script) => {
+                script.remove(); // Eliminar scripts previamente cargados
+            });
+        }
+
+        // Event listeners para los enlaces
+        authorsLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadContent('/Public/Authors.html'); // Carga Authors.html
+        });
+
+        booksLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadContent('/Public/Books.html'); // Carga Books.html
+        });
+
+        // Cargar la página de autores por defecto al inicio
+        loadContent('/Public/Authors.html');</script>
+</body>
+</html>

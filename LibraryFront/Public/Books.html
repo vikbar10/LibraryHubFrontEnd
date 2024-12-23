@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de libros</title>
+    <link rel="stylesheet" href="/Content/styles.css">
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/custom/books/books.js"></script>
+    <style>
+        /* Navbar styles */
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+
+            .navbar a {
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                transition: background 0.3s;
+            }
+
+                .navbar a:hover {
+                    background-color: #575757;
+                }
+
+            .navbar .brand {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .modal-body input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-body button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .modal-body button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>   
+    <main>
+        <h1>Lista de Libros</h1>
+        <button id="add-book-btn" data-action="POST">Agregar Libro</button>
+        <table id="books-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Año</th>
+                    <th>Género</th>
+                    <th>Páginas</th>
+                    <th>Autor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="book-modal-title">Agregar Autor</h2>
+                <button class="modal-close" id="close-book-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="book-form">
+                    <input type="hidden" id="book-id">
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" required>
+                    <label for="release-year">Año:</label>
+                    <input type="number" id="release-year" required>
+                    <label for="genre">Género:</label>
+                    <input type="text" id="genre" required>
+                    <label for="pages">Páginas:</label>
+                    <input type="number" id="pages" required>
+                    <label for="author-id">Autor:</label>
+                    <select id="author-id" required>
+                    </select>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>           
+        </div>
+    </div>
+</body>
+</html>
